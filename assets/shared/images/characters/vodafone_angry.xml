@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="angry.png">
+	<!-- Created with Adobe Animate version 21.0.9.42677 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="vodafone_angry0000" x="0" y="0" width="349" height="396"/>
+	<SubTexture name="vodafone_angry0001" x="0" y="0" width="349" height="396"/>
+	<SubTexture name="vodafone_angry0002" x="0" y="0" width="349" height="396"/>
+	<SubTexture name="vodafone_angry0003" x="349" y="0" width="328" height="380" frameX="-10" frameY="-8" frameWidth="349" frameHeight="396"/>
+	<SubTexture name="vodafone_angry0004" x="349" y="0" width="328" height="380" frameX="-10" frameY="-8" frameWidth="349" frameHeight="396"/>
+	<SubTexture name="vodafone_angry0005" x="349" y="0" width="328" height="380" frameX="-10" frameY="-8" frameWidth="349" frameHeight="396"/>
+</TextureAtlas>

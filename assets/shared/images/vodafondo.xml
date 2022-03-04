@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="vodafondo.png">
+	<!-- Created with Adobe Animate version 21.0.9.42677 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="fondo0000" x="0" y="0" width="3067" height="933" frameX="-1002" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0001" x="3067" y="0" width="3068" height="931" frameX="-877" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0002" x="0" y="933" width="3069" height="929" frameX="-751" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0003" x="3069" y="933" width="3070" height="927" frameX="-626" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0004" x="0" y="1862" width="3070" height="926" frameX="-501" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0005" x="3070" y="1862" width="3071" height="924" frameX="-376" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0006" x="0" y="2788" width="3072" height="922" frameX="-251" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0007" x="3072" y="2788" width="3072" height="920" frameX="-126" frameY="0" frameWidth="4069" frameHeight="933"/>
+	<SubTexture name="fondo0008" x="0" y="3710" width="3074" height="919" frameX="0" frameY="0" frameWidth="4069" frameHeight="933"/>
+</TextureAtlas>

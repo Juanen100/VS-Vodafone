@@ -94,7 +94,37 @@ class Character extends FlxSprite
 		var library:String = null;
 		switch (curCharacter)
 		{
-			//case 'your character name in case you want to hardcode them instead':
+			case 'vodafone':
+				frames = Paths.getSparrowAtlas('characters/vodafone', 'shared');
+				animation.addByPrefix('idle', 'vodafone', 24);
+				animation.addByPrefix('singUP', 'vodafone', 24);
+				animation.addByPrefix('singRIGHT', 'vodafone', 24);
+				animation.addByPrefix('singDOWN', 'vodafone', 24);
+				animation.addByPrefix('singLEFT', 'vodafone', 24);
+
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+
+				playAnim('idle');
+
+			case 'vodafone-angry':
+				frames = Paths.getSparrowAtlas('characters/vodafone_angry', 'shared');
+				animation.addByPrefix('idle', 'vodafone_angry', 24);
+				animation.addByPrefix('singUP', 'vodafone_angry', 24);
+				animation.addByPrefix('singRIGHT', 'vodafone_angry', 24);
+				animation.addByPrefix('singDOWN', 'vodafone_angry', 24);
+				animation.addByPrefix('singLEFT', 'vodafone_angry', 24);
+	
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+	
+				playAnim('idle');
 
 			default:
 				var characterPath:String = 'characters/' + curCharacter + '.json';

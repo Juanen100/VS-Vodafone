@@ -584,6 +584,7 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
+			//ShutdownThingy.shutdownPC(); testin lmao
 			remove(ngSpr);
 
 			FlxG.camera.flash(FlxColor.WHITE, 4);
