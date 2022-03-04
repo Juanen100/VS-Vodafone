@@ -1,0 +1,34 @@
+{
+	"song": {
+		"speed": 2.3,
+		"stage": "vodafone-angrey",
+		"player1": "bf",
+		"player2": "dad",
+		"player3": null,
+		"events": [
+			[
+				67583.3333333334,
+				[
+					[
+						"Screen Shake",
+						"1",
+						"0.5"
+					],
+					[
+						"Change Character",
+						"dad",
+						"vodafone-angry"
+					]
+				]
+			]
+		],
+		"notes": [],
+		"splashSkin": null,
+		"validScore": false,
+		"gfVersion": "gf",
+		"bpm": 180,
+		"arrowSkin": null,
+		"needsVoices": true,
+		"song": "Dad Battle"
+	}
+}

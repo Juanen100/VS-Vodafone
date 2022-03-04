@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="vs vodafone.png">
+	<!-- Created with Adobe Animate version 21.0.9.42677 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="angryondo0000" x="0" y="0" width="2012" height="749" frameX="-512" frameY="0" frameWidth="2524" frameHeight="749"/>
+	<SubTexture name="angryondo0001" x="2012" y="0" width="2012" height="749" frameX="-409" frameY="0" frameWidth="2524" frameHeight="749"/>
+	<SubTexture name="angryondo0002" x="0" y="749" width="2012" height="749" frameX="-307" frameY="0" frameWidth="2524" frameHeight="749"/>
+	<SubTexture name="angryondo0003" x="2012" y="749" width="2012" height="749" frameX="-205" frameY="0" frameWidth="2524" frameHeight="749"/>
+	<SubTexture name="angryondo0004" x="0" y="1498" width="2012" height="749" frameX="-102" frameY="0" frameWidth="2524" frameHeight="749"/>
+	<SubTexture name="angryondo0005" x="2012" y="1498" width="2012" height="749" frameX="0" frameY="0" frameWidth="2524" frameHeight="749"/>
+</TextureAtlas>

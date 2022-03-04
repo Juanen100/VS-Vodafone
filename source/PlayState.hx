@@ -393,6 +393,19 @@ class PlayState extends MusicBeatState
 				stageFront.setGraphicSize(Std.int(stageFront.width * 1.7));
 				stageFront.updateHitbox();
 				add(stageFront);
+
+			case 'vodafone-angrey':
+				if(ClientPrefs.flashing == true)
+				{
+					stageFront = new BGSprite('vodafondoangry', -1305, -185, 0.9, 0.9, ['angryondo'], true);
+				}
+				else if(ClientPrefs.flashing == false)
+				{
+					stageFront = new BGSprite('vodafondoangry', -1305, -185, 0.9, 0.9, ['shit'], true);
+				}
+				stageFront.setGraphicSize(Std.int(stageFront.width * 1.7));
+				stageFront.updateHitbox();
+				add(stageFront);
 		}
 
 		if(isPixelStage) {
@@ -1984,7 +1997,7 @@ class PlayState extends MusicBeatState
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
-		if(dad.curCharacter == 'vodafone')
+		if(dad.curCharacter == 'vodafone' || dad.curCharacter == 'vodafone-angry')
 			dad.y += Math.sin(upDown);
 
 		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
@@ -3861,6 +3874,11 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		if (curBeat == 808 && curSong == 'dad-battle')
+		{
+			curStage = 'vodafone-angrey';
+		}
 
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
