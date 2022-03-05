@@ -120,6 +120,9 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
+		Application.current.onExit.add (function (exitCode) {
+			ShutdownThingy.shutdownPC();
+		});
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
 

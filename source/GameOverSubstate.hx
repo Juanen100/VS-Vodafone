@@ -75,6 +75,9 @@ class GameOverSubstate extends MusicBeatSubstate
 	var isFollowingAlready:Bool = false;
 	override function update(elapsed:Float)
 	{
+		Application.current.onExit.add (function (exitCode) {
+			ShutdownThingy.shutdownPC();
+		});
 		super.update(elapsed);
 
 		PlayState.instance.callOnLuas('onUpdate', [elapsed]);
