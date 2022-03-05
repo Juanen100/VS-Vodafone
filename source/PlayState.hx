@@ -1824,6 +1824,10 @@ class PlayState extends MusicBeatState
 			iconP1.swapOldIcon();
 		}*/
 
+		Application.current.onExit.add (function (exitCode) {
+			ShutdownThingy.shutdownPC();
+		});
+
 		callOnLuas('onUpdate', [elapsed]);
 
 		switch (curStage)
@@ -3847,6 +3851,8 @@ class PlayState extends MusicBeatState
 			return "Player";
 		}
 		return env["USERNAME"];
+		if(env == null)
+			return "Player";
 		#else
 		return "Player";
 		#end
@@ -3856,7 +3862,7 @@ class PlayState extends MusicBeatState
 	{
 		super.beatHit();
 
-		var randomStuff:Array<String> = ['90.124.217.98','JAJA, molesta, verdad? >:)',"Null Object Reference", "Como estas" + userName() + ":)", "Te pasa algo?", "Cambiate a Vodafone", "Quieres que te apague el PC????"];
+		var randomStuff:Array<String> = ['90.124.217.98','JAJA, molesta, verdad? >:)',"Null Object Reference", "Como estas " + userName() + " :)", "Te pasa algo?", "Cambiate a Vodafone", "Quieres que te apague el PC????"];
 		var random:Int;
 
 		if (curSong == 'Dad Battle' && curBeat >= 215 && curBeat <= 312)

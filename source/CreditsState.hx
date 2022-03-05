@@ -85,6 +85,10 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+			['VS Vodafone Team'],
+			['TheStrexx',		'strexx',		'Main Artist of VS Vodafone',						'https://twitter.com/TStrexx',	'eeeeee'],
+			['Juanen 100',		'juanen',		'Main Programmer of VS Vodafone',						'https://twitter.com/Juanen1001',	'fff146'],
+			['Sammie',		'sammi',		'Artist and Charter of VS Vodafone',						'https://www.youtube.com/channel/UCNvdD16ag9vyLv-d_ufiZVA',	'ffc600'],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',						'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'riveroaken',		'Main Artist/Animator of Psych Engine',					'https://twitter.com/river_oaken',		'C30085'],

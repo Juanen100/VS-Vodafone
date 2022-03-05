@@ -50,6 +50,7 @@ class MainMenuState extends MusicBeatState
 	var bg:FlxSprite;
 
 	var playAgainstVodafone:FlxText;
+	var credits:FlxText;
 
 	override function create()
 	{
@@ -134,6 +135,11 @@ class MainMenuState extends MusicBeatState
 		playAgainstVodafone.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
 		add(playAgainstVodafone);
 
+		credits = new FlxText(995, 475, 0, "Credits", 12);
+		credits.scrollFactor.set();
+		credits.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
+		add(credits);
+
 		FlxG.camera.follow(camFollowPos, null, 1);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 344, 0, 
@@ -206,6 +212,13 @@ class MainMenuState extends MusicBeatState
 					PlayState.campaignScore = 0;
 					PlayState.campaignMisses = 0;
 					LoadingState.loadAndSwitchState(new PlayState(), true);
+				}
+			}
+
+			if(FlxG.mouse.overlaps(credits))
+			{
+				if(FlxG.mouse.pressed){
+					MusicBeatState.switchState(new CreditsState());
 				}
 			}
 
