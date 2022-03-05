@@ -268,8 +268,8 @@ class PlayState extends MusicBeatState
 	// Less laggy controls
 	private var keysArray:Array<Dynamic>;
 
-
 	var stageFront:BGSprite;
+	var stageFront2:BGSprite;
 
 	override public function create()
 	{
@@ -394,18 +394,16 @@ class PlayState extends MusicBeatState
 				stageFront.updateHitbox();
 				add(stageFront);
 
-			case 'vodafone-angrey':
 				if(ClientPrefs.flashing == true)
 				{
-					stageFront = new BGSprite('vodafondoangry', -1305, -185, 0.9, 0.9, ['angryondo'], true);
+					stageFront2 = new BGSprite('vodafondoangry', -1275, -185, 0.9, 0.9, ['angryondo'], true);
 				}
 				else if(ClientPrefs.flashing == false)
 				{
-					stageFront = new BGSprite('vodafondoangry', -1305, -185, 0.9, 0.9, ['shit'], true);
+					stageFront2 = new BGSprite('vodafondoangry', -1275, -185, 0.9, 0.9, ['shit'], true);
 				}
-				stageFront.setGraphicSize(Std.int(stageFront.width * 1.7));
-				stageFront.updateHitbox();
-				add(stageFront);
+				stageFront2.setGraphicSize(Std.int(stageFront2.width * 1.7));
+				stageFront2.updateHitbox();
 		}
 
 		if(isPixelStage) {
@@ -1813,7 +1811,7 @@ class PlayState extends MusicBeatState
 	var limoSpeed:Float = 0;
 
 	override public function update(elapsed:Float)
-	{
+	{		
 		upDown += 0.05;
 		/*if (FlxG.keys.justPressed.NINE)
 		{
@@ -3868,17 +3866,32 @@ class PlayState extends MusicBeatState
 
 	var lastBeatHit:Int = -1;
 	
-	
-	
-	
 	override function beatHit()
 	{
 		super.beatHit();
 
-		if (curBeat == 808 && curSong == 'dad-battle')
-		{
-			curStage = 'vodafone-angrey';
-		}
+		if (curSong == 'Dad Battle') 
+			{
+				switch (curBeat)
+				{
+					case 200:
+						var targetsArray:Array<FlxCamera> = [camGame, camHUD];
+						for (i in 0...targetsArray.length) {
+							var duration:Float = 1;
+							var intensity:Float = 0.14;
+							if(duration > 0 && intensity != 0) {
+								targetsArray[i].shake(intensity, duration);
+							}
+						}
+					case 201:
+						remove(dad);
+						dad = new Character(100, 100, 'vodafone-angry');
+						remove(boyfriend);
+						add(stageFront2);
+						add(dad);
+						add(boyfriend);
+				}
+			}
 
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);

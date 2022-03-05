@@ -94,6 +94,7 @@ class Character extends FlxSprite
 		var library:String = null;
 		switch (curCharacter)
 		{
+			//Hardcoding the characters in psych CUZ im a bad boy
 			case 'vodafone':
 				frames = Paths.getSparrowAtlas('characters/vodafone', 'shared');
 				animation.addByPrefix('idle', 'vodafone', 24);
