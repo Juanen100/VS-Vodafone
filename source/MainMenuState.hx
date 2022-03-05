@@ -47,8 +47,13 @@ class MainMenuState extends MusicBeatState
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
 
+	var bg:FlxSprite;
+
+	var playAgainstVodafone:FlxText;
+
 	override function create()
 	{
+		FlxG.mouse.visible = true;
 		WeekData.loadTheFirstEnabledMod();
 
 		#if desktop
@@ -71,11 +76,10 @@ class MainMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
-		bg.scrollFactor.set(0, yScroll);
-		bg.setGraphicSize(Std.int(bg.width * 1.175));
+		bg = new FlxSprite(-640, -360).loadGraphic(Paths.image('miedo', 'shared'));
+		//bg.setGraphicSize(Std.int(bg.width * 1.175));
 		bg.updateHitbox();
-		bg.screenCenter();
+		//bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 
@@ -104,7 +108,7 @@ class MainMenuState extends MusicBeatState
 			scale = 6 / optionShit.length;
 		}*/
 
-		for (i in 0...optionShit.length)
+		/*for (i in 0...optionShit.length)
 		{
 			var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
 			var menuItem:FlxSprite = new FlxSprite(0, (i * 140)  + offset);
@@ -123,9 +127,20 @@ class MainMenuState extends MusicBeatState
 			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
-		}
+		}*/
+
+		playAgainstVodafone = new FlxText(965, 355, 0, "Play VS Vodafone", 12);
+		playAgainstVodafone.scrollFactor.set();
+		playAgainstVodafone.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
+		add(playAgainstVodafone);
 
 		FlxG.camera.follow(camFollowPos, null, 1);
+
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 344, 0, 
+		" If you close the game while you're playing\nyour PC will shutdown\nif you get 300 misses or more your PC will\nshutdown.\n\n\nREMEMBER\nThis mod contains flashing lights\nand serious epileptic effects\nyou can disable those lights from the\n	options menu.\nAnd, if you die 1 time, your miss limit will\nbe 299 instead, if you die 2 times 298 and so on.\nGood Luck!\n\nWARNING!", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat(Paths.font('impact.ttf'), 12, FlxColor.WHITE, LEFT);
+		add(versionShit);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Vodafone Engine v" + psychEngineVersion, 12);
 		versionShit.scrollFactor.set();
@@ -179,7 +194,22 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UI_UP_P)
+			if(FlxG.mouse.overlaps(playAgainstVodafone))
+			{
+				if(FlxG.mouse.pressed){
+					PlayState.storyPlaylist = ['Dad Battle'];
+					PlayState.isStoryMode = false;
+					var diffic = CoolUtil.getDifficultyFilePath(2);
+					if(diffic == null) diffic = '-hard';
+					PlayState.storyDifficulty = 2;
+					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + '-hard', PlayState.storyPlaylist[0].toLowerCase());
+					PlayState.campaignScore = 0;
+					PlayState.campaignMisses = 0;
+					LoadingState.loadAndSwitchState(new PlayState(), true);
+				}
+			}
+
+			/*if (controls.UI_UP_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
@@ -189,7 +219,7 @@ class MainMenuState extends MusicBeatState
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
-			}
+			}*/
 
 			if (controls.BACK)
 			{
@@ -198,61 +228,8 @@ class MainMenuState extends MusicBeatState
 				MusicBeatState.switchState(new TitleState());
 			}
 
-			if (controls.ACCEPT)
-			{
-				if (optionShit[curSelected] == 'donate')
-				{
-					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
-				}
-				else
-				{
-					selectedSomethin = true;
-					FlxG.sound.play(Paths.sound('confirmMenu'));
-
-					if(ClientPrefs.flashing) FlxFlicker.flicker(magenta, 1.1, 0.15, false);
-
-					menuItems.forEach(function(spr:FlxSprite)
-					{
-						if (curSelected != spr.ID)
-						{
-							FlxTween.tween(spr, {alpha: 0}, 0.4, {
-								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
-									spr.kill();
-								}
-							});
-						}
-						else
-						{
-							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
-							{
-								var daChoice:String = optionShit[curSelected];
-
-								switch (daChoice)
-								{
-									case 'story_mode':
-										MusicBeatState.switchState(new StoryMenuState());
-									case 'freeplay':
-										MusicBeatState.switchState(new FreeplayState());
-									#if MODS_ALLOWED
-									case 'mods':
-										MusicBeatState.switchState(new ModsMenuState());
-									#end
-									case 'awards':
-										MusicBeatState.switchState(new AchievementsMenuState());
-									case 'credits':
-										MusicBeatState.switchState(new CreditsState());
-									case 'options':
-										LoadingState.loadAndSwitchState(new options.OptionsState());
-								}
-							});
-						}
-					});
-				}
-			}
 			#if desktop
-			else if (FlxG.keys.anyJustPressed(debugKeys))
+			if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
 				MusicBeatState.switchState(new MasterEditorMenu());

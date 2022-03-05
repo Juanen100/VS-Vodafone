@@ -63,6 +63,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Chromatic Aberration',
+			"Uncheck this if you're sensitive to epileptic stuff!",
+			'chromAberration',
+			'bool',
+			true);
+		//addOption(option);
+
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",
 			'camZooms',

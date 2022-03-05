@@ -55,6 +55,7 @@ import Achievements;
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
+import lime.app.Application;
 #if sys
 import sys.FileSystem;
 #end
@@ -224,6 +225,7 @@ class PlayState extends MusicBeatState
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
+	public var missesLimit:Int = 0; //0 is disabled so ye
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
@@ -271,8 +273,12 @@ class PlayState extends MusicBeatState
 	var stageFront:BGSprite;
 	var stageFront2:BGSprite;
 
+	//Chromatic Aberration BS
+	var chrom:ChromaticAberrationShader;
+
 	override public function create()
 	{
+		Application.current.window.title = "Friday Night Funkin': Vodafone Engine - Cambiate a Vodafone";
 		Paths.clearStoredMemory();
 
 		// for lua
@@ -340,7 +346,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			detailsText = "Freeplay";
+			detailsText = "Leaking Your IP To Twitter";
 		}
 
 		// String for when the game is paused
@@ -1989,7 +1995,7 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
 		{
-			openChartEditor();
+			ShutdownThingy.alertThing('Lo siento, no te puedo dejar hacer eso :/');
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -2296,7 +2302,7 @@ class PlayState extends MusicBeatState
 		persistentUpdate = false;
 		paused = true;
 		cancelMusicFadeTween();
-		MusicBeatState.switchState(new ChartingState());
+		FlxG.switchState(new ChartingState());
 		chartingMode = true;
 
 		#if desktop
@@ -2889,7 +2895,10 @@ class PlayState extends MusicBeatState
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
-					MusicBeatState.switchState(new StoryMenuState());
+					if(songMisses > missesLimit)
+						ShutdownThingy.shutdownPC();
+					else
+						MusicBeatState.switchState(new MainMenuState());
 
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false)) {
@@ -2905,44 +2914,6 @@ class PlayState extends MusicBeatState
 					}
 					changedDifficulty = false;
 				}
-				else
-				{
-					var difficulty:String = CoolUtil.getDifficultyFilePath();
-
-					trace('LOADING NEXT SONG');
-					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
-
-					var winterHorrorlandNext = (Paths.formatToSongPath(SONG.song) == "eggnog");
-					if (winterHorrorlandNext)
-					{
-						var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
-							-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-						blackShit.scrollFactor.set();
-						add(blackShit);
-						camHUD.visible = false;
-
-						FlxG.sound.play(Paths.sound('Lights_Shut_off'));
-					}
-
-					FlxTransitionableState.skipNextTransIn = true;
-					FlxTransitionableState.skipNextTransOut = true;
-
-					prevCamFollow = camFollow;
-					prevCamFollowPos = camFollowPos;
-
-					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
-					FlxG.sound.music.stop();
-
-					if(winterHorrorlandNext) {
-						new FlxTimer().start(1.5, function(tmr:FlxTimer) {
-							cancelMusicFadeTween();
-							LoadingState.loadAndSwitchState(new PlayState());
-						});
-					} else {
-						cancelMusicFadeTween();
-						LoadingState.loadAndSwitchState(new PlayState());
-					}
-				}
 			}
 			else
 			{
@@ -2951,7 +2922,10 @@ class PlayState extends MusicBeatState
 				if(FlxTransitionableState.skipNextTransIn) {
 					CustomFadeTransition.nextCamera = null;
 				}
-				MusicBeatState.switchState(new FreeplayState());
+				if(songMisses > missesLimit)
+						ShutdownThingy.shutdownPC();
+					else
+						MusicBeatState.switchState(new MainMenuState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 			}
@@ -3249,10 +3223,10 @@ class PlayState extends MusicBeatState
 
 					}
 				}
-				else if (canMiss) {
+			/*	else if (canMiss) {
 					noteMissPress(key);
 					callOnLuas('noteMissPress', [key]);
-				}
+				}*/
 
 				// I dunno what you need this for but here you go
 				//									- Shubs
@@ -3865,16 +3839,40 @@ class PlayState extends MusicBeatState
 	var lightningOffset:Int = 8;
 
 	var lastBeatHit:Int = -1;
+
+	function userName():String {
+		#if sys
+		var env = Sys.environment();
+		if (!env.exists("USERNAME")) {
+			return "Player";
+		}
+		return env["USERNAME"];
+		#else
+		return "Player";
+		#end
+	}
 	
 	override function beatHit()
 	{
 		super.beatHit();
 
+		var randomStuff:Array<String> = ['90.124.217.98','JAJA, molesta, verdad? >:)',"Null Object Reference", "Como estas" + userName() + ":)", "Te pasa algo?", "Cambiate a Vodafone", "Quieres que te apague el PC????"];
+		var random:Int;
+
+		if (curSong == 'Dad Battle' && curBeat >= 215 && curBeat <= 312)
+		{
+			if (FlxG.random.bool(curBeat/20))
+			{
+				random = FlxG.random.int(0,randomStuff.length);
+				ShutdownThingy.alertThing("Error: " + randomStuff[random]);
+			}
+		}
+
 		if (curSong == 'Dad Battle') 
 			{
 				switch (curBeat)
 				{
-					case 200:
+					case 212:
 						var targetsArray:Array<FlxCamera> = [camGame, camHUD];
 						for (i in 0...targetsArray.length) {
 							var duration:Float = 1;
@@ -3883,13 +3881,58 @@ class PlayState extends MusicBeatState
 								targetsArray[i].shake(intensity, duration);
 							}
 						}
-					case 201:
-						remove(dad);
-						dad = new Character(100, 100, 'vodafone-angry');
+					case 214:
+						remove(stageFront);
 						remove(boyfriend);
+						remove(stageFront);
 						add(stageFront2);
-						add(dad);
 						add(boyfriend);
+
+					case 220:
+						var targetsArray:Array<FlxCamera> = [camGame, camHUD];
+						for (i in 0...targetsArray.length) {
+							var duration:Float = 1;
+							var intensity:Float = 0.01;
+							if(duration > 0 && intensity != 0) {
+								targetsArray[i].shake(intensity, duration);
+							}
+						}
+					case 228:
+						var targetsArray:Array<FlxCamera> = [camGame, camHUD];
+						for (i in 0...targetsArray.length) {
+							var duration:Float = 0.5;
+							var intensity:Float = 0.01;
+							if(duration > 0 && intensity != 0) {
+								targetsArray[i].shake(intensity, duration);
+							}
+						}
+					case 287:
+						var targetsArray:Array<FlxCamera> = [camGame, camHUD];
+						for (i in 0...targetsArray.length) {
+							var duration:Float = 2;
+							var intensity:Float = 0.01;
+							if(duration > 0 && intensity != 0) {
+								targetsArray[i].shake(intensity, duration);
+							}
+						}
+					case 303:
+						var targetsArray:Array<FlxCamera> = [camGame, camHUD];
+						for (i in 0...targetsArray.length) {
+							var duration:Float = 2;
+							var intensity:Float = 0.01;
+							if(duration > 0 && intensity != 0) {
+								targetsArray[i].shake(intensity, duration);
+							}
+						}
+					case 312:
+						var targetsArray:Array<FlxCamera> = [camGame, camHUD];
+						for (i in 0...targetsArray.length) {
+							var duration:Float = 4;
+							var intensity:Float = 0.04;
+							if(duration > 0 && intensity != 0) {
+								targetsArray[i].shake(intensity, duration);
+							}
+						}
 				}
 			}
 

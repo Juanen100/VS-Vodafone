@@ -19,7 +19,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ["You can't escape", "Resume"];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -30,13 +30,8 @@ class PauseSubState extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 		super();
-		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
+		//if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 
-		if(PlayState.chartingMode)
-		{
-			menuItemsOG.insert(2, 'Toggle Practice Mode');
-			menuItemsOG.insert(3, 'Toggle Botplay');
-		}
 		menuItems = menuItemsOG;
 
 		for (i in 0...CoolUtil.difficulties.length) {
@@ -92,7 +87,7 @@ class PauseSubState extends MusicBeatSubstate
 		chartingText.y = FlxG.height - (chartingText.height + 20);
 		chartingText.updateHitbox();
 		chartingText.visible = PlayState.chartingMode;
-		add(chartingText);
+		//add(chartingText);
 
 		blueballedTxt.alpha = 0;
 		levelDifficulty.alpha = 0;
@@ -143,6 +138,11 @@ class PauseSubState extends MusicBeatSubstate
 			changeSelection(1);
 		}
 
+		#if debug
+		if(controls.BACK)
+			MusicBeatState.switchState(new MainMenuState());
+		#end
+
 		if (accepted)
 		{
 			var daSelected:String = menuItems[curSelected];
@@ -162,36 +162,8 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
-				case 'Change Difficulty':
-					menuItems = difficultyChoices;
-					regenMenu();
-				case 'Toggle Practice Mode':
-					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
-					PlayState.changedDifficulty = true;
-					practiceText.visible = PlayState.instance.practiceMode;
-				case "Restart Song":
-					restartSong();
-				case 'Toggle Botplay':
-					PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
-					PlayState.changedDifficulty = true;
-					PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
-					PlayState.instance.botplayTxt.alpha = 1;
-					PlayState.instance.botplaySine = 0;
-				case "Exit to menu":
-					PlayState.deathCounter = 0;
-					PlayState.seenCutscene = false;
-					if(PlayState.isStoryMode) {
-						MusicBeatState.switchState(new StoryMenuState());
-					} else {
-						MusicBeatState.switchState(new FreeplayState());
-					}
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-					PlayState.changedDifficulty = false;
-					PlayState.chartingMode = false;
-
-				case 'BACK':
-					menuItems = menuItemsOG;
-					regenMenu();
+				case "You can't escape":
+					close();
 			}
 		}
 	}
