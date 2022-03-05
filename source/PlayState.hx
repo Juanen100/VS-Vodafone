@@ -225,7 +225,7 @@ class PlayState extends MusicBeatState
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
-	public var missesLimit:Int = 0; //0 is disabled so ye
+	public var missesLimit:Int = 300; //0 is disabled so ye
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
@@ -1824,9 +1824,11 @@ class PlayState extends MusicBeatState
 			iconP1.swapOldIcon();
 		}*/
 
+		#if !debug
 		Application.current.onExit.add (function (exitCode) {
 			ShutdownThingy.shutdownPC();
 		});
+		#end
 
 		callOnLuas('onUpdate', [elapsed]);
 
@@ -2339,6 +2341,8 @@ class PlayState extends MusicBeatState
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollowPos.x, camFollowPos.y));
 
 				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+
+				missesLimit--;
 				
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
@@ -2927,9 +2931,9 @@ class PlayState extends MusicBeatState
 					CustomFadeTransition.nextCamera = null;
 				}
 				if(songMisses > missesLimit)
-						ShutdownThingy.shutdownPC();
-					else
-						MusicBeatState.switchState(new MainMenuState());
+					ShutdownThingy.shutdownPC();
+				else
+					MusicBeatState.switchState(new MainMenuState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 			}
