@@ -1,0 +1,53 @@
+{
+	"dialogue": [
+		{
+			"expression": "confused",
+			"text": "Hola, estas interesado en nuestros servicios?\\nEstamos buscando gente para que los pruebe.",
+			"boxState": "normal",
+			"portrait": "vodafone",
+			"speed": 0.05
+		},
+		{
+			"expression": "talk",
+			"text": "beep bap boop",
+			"boxState": "normal",
+			"portrait": "bf",
+			"speed": 0.05
+		},
+		{
+			"expression": "talk",
+			"text": "WHAT DO YOU MEAN YOU ARE FROM\\nORANGE?!?!?!",
+			"boxState": "angry",
+			"portrait": "vodafone",
+			"speed": 0.05
+		},
+		{
+			"expression": "talk",
+			"text": "skeedibup gapo",
+			"boxState": "normal",
+			"speed": 0.05,
+			"portrait": "bf"
+		},
+		{
+			"expression": "talk",
+			"text": "A RAP BATTLE????!!!",
+			"boxState": "angry",
+			"speed": 0.05,
+			"portrait": "vodafone"
+		},
+		{
+			"expression": "talk",
+			"text": "I'LL GIVE YOU A FUCKING RAP BATTLE!",
+			"boxState": "angry",
+			"speed": 0.05,
+			"portrait": "vodafone"
+		},
+		{
+			"expression": "shocked",
+			"text": "beep...",
+			"boxState": "normal",
+			"speed": 0.05,
+			"portrait": "bf"
+		}
+	]
+}

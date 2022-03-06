@@ -276,9 +276,10 @@ class PlayState extends MusicBeatState
 
 	//Chromatic Aberration BS
 	var chrom:ChromaticAberrationShader;
-
-	var posX:Float = 0;
-	var posY:Int = 4;
+	
+	var windowX:Float = Lib.application.window.x;
+	var windowY:Float = Lib.application.window.y;
+	var moveScreen:Bool = false;
 
 	override public function create()
 	{
@@ -1833,13 +1834,12 @@ class PlayState extends MusicBeatState
 	{		
 		upDown += 0.05;
 
-		FlxG.watch.addQuick('WindowPos', Lib.application.window.x);
-
-		if (curSong == 'Dad Battle' && curBeat >= 215 && curBeat <= 312 && Lib.application.window.x <= 0 && Lib.application.window.x <= 844)
+		if(curSong == 'Dad Battle' && moveScreen && Lib.application.window.x <= 844){
 			Lib.application.window.x += 1;
+		}
 
-		if(Lib.application.window.x == 844)
-			Lib.application.window.move(0, Lib.application.window.y);
+		if (Lib.application.window.x == 844)
+			Lib.application.window.x = 0;
 
 		#if !debug
 		Application.current.onExit.add (function (exitCode) {
@@ -2933,7 +2933,7 @@ class PlayState extends MusicBeatState
 					if(songMisses > missesLimit)
 						ShutdownThingy.shutdownPC();
 					else
-						MusicBeatState.switchState(new MainMenuState());
+						MusicBeatState.switchState(new CreditsState());
 
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false)) {
@@ -2960,7 +2960,7 @@ class PlayState extends MusicBeatState
 				if(songMisses > missesLimit)
 					ShutdownThingy.shutdownPC();
 				else
-					MusicBeatState.switchState(new MainMenuState());
+					MusicBeatState.switchState(new CreditsState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 			}
@@ -3893,7 +3893,7 @@ class PlayState extends MusicBeatState
 	{
 		super.beatHit();
 
-		var randomStuff:Array<String> = ['90.124.217.98','JAJA, molesta, verdad? >:)',"Null Object Reference", "Como estas " + userName() + " :)", "Te pasa algo?", "Cambiate a Vodafone", "Quieres que te apague el PC????"];
+		var randomStuff:Array<String> = ['90.124.217.98','JAJA, molesta, verdad? >:)',"Null Object Reference", "Como estas " + userName() + " :)", "Te pasa algo?", "Cambiate a Vodafone", "Quieres que te apague el PC????", "Suscribite a Folagor", "Usen Cool Engine (Es bait)", "Sigan a Strexx o llora", "Juanen100 e un pendejo qliao", "Juanen100, Strexx, Sammie te saludan", "Ñ", "No podes escapar", "Te veo austado :)"];
 		var random:Int;
 
 		if (curSong == 'Dad Battle' && curBeat >= 215 && curBeat <= 312)
@@ -3903,7 +3903,7 @@ class PlayState extends MusicBeatState
 				random = FlxG.random.int(0,randomStuff.length);
 				ShutdownThingy.alertThing("Error: " + randomStuff[random]);
 			}
-
+			moveScreen = true;
 			//Lib.application.window.move(Std.int(posX), posY);
 		}
 

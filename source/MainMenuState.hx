@@ -163,6 +163,13 @@ class MainMenuState extends MusicBeatState
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 344, 0, 
 		" If you close the game while you're playing\nyour PC will shutdown\nif you get 300 misses or more your PC will\nshutdown.\n\n\nREMEMBER\nThis mod contains flashing lights\nand serious epileptic effects\nyou can disable those lights from the\n	options menu.\nAnd, if you die 1 time, your miss limit will\nbe 299 instead, if you die 2 times 298 and so on.\nGood Luck!\n\nWARNING!", 12);
 		versionShit.scrollFactor.set();
+		switch(ClientPrefs.language)
+		{
+			case 'Spanish':
+				versionShit.text = "Si cierras el juego mientras juegas\ntu PC se apagara\nSi tienes 300 misses o más tu PC\nse apagará.\n\n\nRECUERDA\nEste mod contiene luces parpadeantes\ny efectos epilepticos serios\npuedes desabilitarlas desde el\nmenú de opciones.\nY, si mueres 1 vez, tu limites de fallos\nserá de 299, si mueres 2 veces 298 y así\nBUENA SUERTE\n";
+			case 'English':
+				versionShit.text = " If you close the game while you're playing\nyour PC will shutdown\nif you get 300 misses or more your PC will\nshutdown.\n\n\nREMEMBER\nThis mod contains flashing lights\nand serious epileptic effects\nyou can disable those lights from the\n	options menu.\nAnd, if you die 1 time, your miss limit will\nbe 299 instead, if you die 2 times 298 and so on.\nGood Luck!\n\nWARNING!";
+		}
 		versionShit.setFormat(Paths.font('impact.ttf'), 12, FlxColor.WHITE, LEFT);
 		add(versionShit);
 
