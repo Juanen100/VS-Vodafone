@@ -36,18 +36,19 @@ class OptionsState extends MusicBeatState
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
-			case 'Note Colors':
+			case 'Note Colors' | 'Colores de las Notas':
 				openSubState(new options.NotesSubState());
-			case 'Controls':
+			case 'Controls' | 'Controles':
 				openSubState(new options.ControlsSubState());
-			case 'Graphics':
+			case 'Graphics' | 'Graficos':
 				openSubState(new options.GraphicsSettingsSubState());
-			case 'Visuals and UI':
+			case 'Visuals and UI' | 'Visuales y UI':
 				openSubState(new options.VisualsUISubState());
 			case 'Gameplay':
 				openSubState(new options.GameplaySettingsSubState());
-			case 'Adjust Delay and Combo':
+			case 'Adjust Delay and Combo' | 'Ajustar Delay y Combo':
 				LoadingState.loadAndSwitchState(new options.NoteOffsetState());
+				
 		}
 	}
 
@@ -58,6 +59,11 @@ class OptionsState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
 		#end
+
+		if(ClientPrefs.language == 'Spanish')
+			options = ['Colores de las Notas', 'Controles', 'Ajustar Delay y Combo', 'Graficos', 'Visuales y UI', 'Gameplay'];
+		else
+			options = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;

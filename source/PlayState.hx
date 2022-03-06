@@ -190,6 +190,7 @@ class PlayState extends MusicBeatState
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
+	var dialogueJsonEnd:DialogueFile = null;
 
 	var halloweenBG:BGSprite;
 	var halloweenWhite:BGSprite;
@@ -276,6 +277,9 @@ class PlayState extends MusicBeatState
 	//Chromatic Aberration BS
 	var chrom:ChromaticAberrationShader;
 
+	var posX:Float = 0;
+	var posY:Int = 4;
+
 	override public function create()
 	{
 		Application.current.window.title = "Friday Night Funkin': Vodafone Engine - Cambiate a Vodafone";
@@ -342,7 +346,7 @@ class PlayState extends MusicBeatState
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
 		if (isStoryMode)
 		{
-			detailsText = "Story Mode: " + WeekData.getCurrentWeek().weekName;
+			detailsText = "Leaking Your IP To Twitter";
 		}
 		else
 		{
@@ -446,7 +450,6 @@ class PlayState extends MusicBeatState
 				phillyCityLightsEvent.add(light);
 			}
 		}
-
 
 		// "GLOBAL" SCRIPTS
 		#if LUA_ALLOWED
@@ -567,6 +570,11 @@ class PlayState extends MusicBeatState
 		var file:String = Paths.json(songName + '/dialogue'); //Checks for json/Psych Engine dialogue
 		if (OpenFlAssets.exists(file)) {
 			dialogueJson = DialogueBoxPsych.parseDialogue(file);
+		}
+
+		var file2:String = Paths.json(songName + '/dialogue-end'); //Checks for json/Psych Engine dialogue
+		if (OpenFlAssets.exists(file)) {
+			dialogueJsonEnd = DialogueBoxPsych.parseDialogue(file2);
 		}
 
 		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue'); //Checks for vanilla/Senpai dialogue
@@ -737,7 +745,12 @@ class PlayState extends MusicBeatState
 		iconP1.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP1);
 
-		iconP2 = new HealthIcon(dad.healthIcon, false);
+		if(dad.curCharacter == 'vodafone')
+			iconP2 = new HealthIcon('vodafone', false);
+		else if(dad.curCharacter == 'vodafone-angry')
+			iconP2 = new HealthIcon('vodafone-angry', false);
+		else
+			iconP2 = new HealthIcon(dad.healthIcon, false);
 		iconP2.y = healthBar.y - 75;
 		iconP2.visible = !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
@@ -870,9 +883,9 @@ class PlayState extends MusicBeatState
 				case 'senpai' | 'roses' | 'thorns':
 					if(daSong == 'roses') FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
-
+					
 				default:
-					startCountdown();
+					startDialogue(dialogueJson);
 			}
 			seenCutscene = true;
 		} else {
@@ -1819,10 +1832,14 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{		
 		upDown += 0.05;
-		/*if (FlxG.keys.justPressed.NINE)
-		{
-			iconP1.swapOldIcon();
-		}*/
+
+		FlxG.watch.addQuick('WindowPos', Lib.application.window.x);
+
+		if (curSong == 'Dad Battle' && curBeat >= 215 && curBeat <= 312 && Lib.application.window.x <= 0 && Lib.application.window.x <= 844)
+			Lib.application.window.x += 1;
+
+		if(Lib.application.window.x == 844)
+			Lib.application.window.move(0, Lib.application.window.y);
 
 		#if !debug
 		Application.current.onExit.add (function (exitCode) {
@@ -1959,10 +1976,20 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		if(ratingName == '?') {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
-		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
+		switch(ClientPrefs.language)
+		{
+			case 'English':
+				if(ratingName == '?') {
+					scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
+				} else {
+					scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
+				}
+			case 'Spanish':
+				if(ratingName == '?') {
+					scoreTxt.text = 'Puntos: ' + songScore + ' | Fallos: ' + songMisses + ' | Rating: ' + ratingName;
+				} else {
+					scoreTxt.text = 'Puntos: ' + songScore + ' | Fallos: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;
+				}
 		}
 
 		if(botplayTxt.visible) {
@@ -3876,6 +3903,8 @@ class PlayState extends MusicBeatState
 				random = FlxG.random.int(0,randomStuff.length);
 				ShutdownThingy.alertThing("Error: " + randomStuff[random]);
 			}
+
+			//Lib.application.window.move(Std.int(posX), posY);
 		}
 
 		if (curSong == 'Dad Battle') 

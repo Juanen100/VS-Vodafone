@@ -51,6 +51,7 @@ class MainMenuState extends MusicBeatState
 
 	var playAgainstVodafone:FlxText;
 	var credits:FlxText;
+	var options:FlxText;
 
 	override function create()
 	{
@@ -104,7 +105,7 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var scale:Float = 1;
+		//var scale:Float = 1;
 		/*if(optionShit.length > 6) {
 			scale = 6 / optionShit.length;
 		}*/
@@ -139,6 +140,23 @@ class MainMenuState extends MusicBeatState
 		credits.scrollFactor.set();
 		credits.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
 		add(credits);
+		
+		options = new FlxText(995, 605, 0, "Options", 12);
+		options.scrollFactor.set();
+		options.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
+		add(options);
+
+		switch(ClientPrefs.language)
+		{
+			case 'Spanish':
+				playAgainstVodafone.text = 'Jugar VS Vodafone';
+				credits.text = 'Creditos';
+				options.text = 'Opciones';
+			case 'English':
+				playAgainstVodafone.text = 'Play VS Vodafone';
+				credits.text = 'Credits';
+				options.text = 'Options';
+		}
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
@@ -195,6 +213,13 @@ class MainMenuState extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
+		#if debug
+		if(FlxG.keys.justPressed.B)
+			ClientPrefs.gameplaySettings.set('botplay', true);
+		if(FlxG.keys.justPressed.O)
+			ClientPrefs.gameplaySettings.set('botplay', false);
+		#end
+
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
@@ -204,7 +229,7 @@ class MainMenuState extends MusicBeatState
 			{
 				if(FlxG.mouse.pressed){
 					PlayState.storyPlaylist = ['Dad Battle'];
-					PlayState.isStoryMode = false;
+					PlayState.isStoryMode = true;
 					var diffic = CoolUtil.getDifficultyFilePath(2);
 					if(diffic == null) diffic = '-hard';
 					PlayState.storyDifficulty = 2;
@@ -221,6 +246,13 @@ class MainMenuState extends MusicBeatState
 					MusicBeatState.switchState(new CreditsState());
 				}
 			}
+
+			if(FlxG.mouse.overlaps(options))
+				{
+					if(FlxG.mouse.pressed){
+						LoadingState.loadAndSwitchState(new options.OptionsState());
+					}
+				}
 
 			/*if (controls.UI_UP_P)
 			{

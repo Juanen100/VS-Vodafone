@@ -13,6 +13,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.FlxCamera;
+import lime.app.Application;
 
 class PauseSubState extends MusicBeatSubstate
 {

@@ -1,0 +1,39 @@
+{
+	"dialogue": [
+		{
+			"expression": "talk",
+			"text": "Ok, you win.",
+			"boxState": "normal",
+			"speed": 0.05,
+			"portrait": "vodafone"
+		},
+		{
+			"speed": 0.05,
+			"portrait": "vodafone",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "I'm done with your bullshit."
+		},
+		{
+			"speed": 0.05,
+			"portrait": "vodafone",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "Now leave. You and your girlfriend are banned\\nfrom using Vodafone ever again"
+		},
+		{
+			"speed": 0.05,
+			"portrait": "bf",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "Beep bap bup?"
+		},
+		{
+			"speed": 0.05,
+			"portrait": "vodafone",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "Just fucking leave assholes"
+		}
+	]
+}
