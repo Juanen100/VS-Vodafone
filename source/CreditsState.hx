@@ -39,6 +39,7 @@ class CreditsState extends MusicBeatState
 
 	override function create()
 	{
+		MainMenuState.onMainMenu = true;
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);

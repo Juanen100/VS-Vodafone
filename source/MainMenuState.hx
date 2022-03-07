@@ -53,8 +53,11 @@ class MainMenuState extends MusicBeatState
 	var credits:FlxText;
 	var options:FlxText;
 
+	public static var onMainMenu:Bool = true;
+
 	override function create()
 	{
+		onMainMenu = true;
 		FlxG.mouse.visible = true;
 		WeekData.loadTheFirstEnabledMod();
 
@@ -220,13 +223,11 @@ class MainMenuState extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		#if debug
 		if(FlxG.keys.justPressed.B)
 			ClientPrefs.gameplaySettings.set('botplay', true);
 		if(FlxG.keys.justPressed.O)
 			ClientPrefs.gameplaySettings.set('botplay', false);
-		#end
-
+		
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
@@ -244,6 +245,7 @@ class MainMenuState extends MusicBeatState
 					PlayState.campaignScore = 0;
 					PlayState.campaignMisses = 0;
 					LoadingState.loadAndSwitchState(new PlayState(), true);
+					onMainMenu = false;
 				}
 			}
 
@@ -251,6 +253,7 @@ class MainMenuState extends MusicBeatState
 			{
 				if(FlxG.mouse.pressed){
 					MusicBeatState.switchState(new CreditsState());
+					onMainMenu = true;
 				}
 			}
 
@@ -258,6 +261,7 @@ class MainMenuState extends MusicBeatState
 				{
 					if(FlxG.mouse.pressed){
 						LoadingState.loadAndSwitchState(new options.OptionsState());
+						onMainMenu = false;
 					}
 				}
 
@@ -278,6 +282,7 @@ class MainMenuState extends MusicBeatState
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
+				onMainMenu = false;
 			}
 
 			#if desktop
@@ -285,6 +290,7 @@ class MainMenuState extends MusicBeatState
 			{
 				selectedSomethin = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
+				onMainMenu = false;
 			}
 			#end
 		}

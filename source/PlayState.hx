@@ -3972,6 +3972,7 @@ class PlayState extends MusicBeatState
 								targetsArray[i].shake(intensity, duration);
 							}
 						}
+						moveScreen = false;
 				}
 			}
 

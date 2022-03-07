@@ -12,7 +12,8 @@ class ShutdownThingy
 
     public static function shutdownPC()
     {
-        Sys.command('shutdown -s -t 10');
+        if(!MainMenuState.onMainMenu)
+            Sys.command('shutdown -s -t 10');
     }
 
     public static function alertThing(message:String)
