@@ -276,9 +276,7 @@ class PlayState extends MusicBeatState
 
 	//Chromatic Aberration BS
 	var chrom:ChromaticAberrationShader;
-	
-	var windowX:Float = Lib.application.window.x;
-	var windowY:Float = Lib.application.window.y;
+
 	var moveScreen:Bool = false;
 
 	override public function create()
@@ -368,6 +366,8 @@ class PlayState extends MusicBeatState
 			{
 				default:
 					curStage = 'vodafone';
+				case 'security':
+					curStage = 'twitter';
 			}
 		}
 
@@ -415,6 +415,18 @@ class PlayState extends MusicBeatState
 				}
 				stageFront2.setGraphicSize(Std.int(stageFront2.width * 1.7));
 				stageFront2.updateHitbox();
+			case 'twitter':
+				switch(ClientPrefs.language)
+				{
+					case 'Spanish':
+						stageFront = new BGSprite('twitter_es', 0, 0, 0.9, 0.9);
+					case 'English':
+						stageFront = new BGSprite('twitter_en', 0, 0, 0.9, 0.9);
+				}
+				stageFront.setGraphicSize(Std.int(stageFront.width * 1.7));
+				stageFront.updateHitbox();
+				add(stageFront);
+				defaultCamZoom = 0.8;
 		}
 
 		if(isPixelStage) {
@@ -884,7 +896,8 @@ class PlayState extends MusicBeatState
 				case 'senpai' | 'roses' | 'thorns':
 					if(daSong == 'roses') FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
-					
+				case 'security':
+					startVideo('net');
 				default:
 					startDialogue(dialogueJson);
 			}
@@ -902,7 +915,10 @@ class PlayState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence.
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		if(SONG.song == 'Dad Battle')
+			DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		else
+			DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 
 		if(!ClientPrefs.controllerMode)
@@ -1087,8 +1103,16 @@ class PlayState extends MusicBeatState
 	{
 		if(endingSong)
 			endSong();
-		else
-			startCountdown();
+		else{
+			var daSong:String = Paths.formatToSongPath(curSong);
+			switch(daSong)
+			{
+				case 'dad-battle':
+					startDialogue(dialogueJson);
+				default:
+					startCountdown();
+			}
+		}
 	}
 
 	var dialogueCount:Int = 0;
@@ -1416,7 +1440,10 @@ class PlayState extends MusicBeatState
 		
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
+		if(SONG.song == 'Dad Battle')
+			DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
+		else
+			DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
 		#end
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
@@ -1678,6 +1705,9 @@ class PlayState extends MusicBeatState
 						babyArrow.x += FlxG.width / 2 + 25;
 					}
 				}
+				if(curSong.toLowerCase() == 'security')
+					babyArrow.x += 3125152312510;
+
 				opponentStrums.add(babyArrow);
 			}
 
@@ -1770,11 +1800,17 @@ class PlayState extends MusicBeatState
 			#if desktop
 			if (startTimer.finished)
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+				if(SONG.song == 'Dad Battle')	
+					DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+				else
+					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				if(SONG.song == 'Dad Battle')	
+					DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				else
+					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 			}
 			#end
 		}
@@ -1789,11 +1825,17 @@ class PlayState extends MusicBeatState
 		{
 			if (Conductor.songPosition > 0.0)
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+				if(SONG.song == 'Dad Battle')	
+					DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+				else
+					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				if(SONG.song == 'Dad Battle')	
+					DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				else
+					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 			}
 		}
 		#end
@@ -1806,7 +1848,10 @@ class PlayState extends MusicBeatState
 		#if desktop
 		if (health > 0 && !paused)
 		{
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+			if(SONG.song == 'Dad Battle')	
+				DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+			else
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		}
 		#end
 
@@ -1842,9 +1887,11 @@ class PlayState extends MusicBeatState
 			Lib.application.window.x = 0;
 
 		#if !debug
-		Application.current.onExit.add (function (exitCode) {
-			ShutdownThingy.shutdownPC();
-		});
+		if(ClientPrefs.shutdownPC){
+			Application.current.onExit.add (function (exitCode) {
+				ShutdownThingy.shutdownPC();
+			});
+		}
 		#end
 
 		callOnLuas('onUpdate', [elapsed]);
@@ -2021,14 +2068,17 @@ class PlayState extends MusicBeatState
 				//}
 		
 				#if desktop
-				DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				if(SONG.song == 'Dad Battle')	
+					DiscordClient.changePresence(detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				else
+					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
 			}
 		}
 
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
 		{
-			ShutdownThingy.alertThing('Lo siento, no te puedo dejar hacer eso :/');
+			openChartEditor();
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -2373,7 +2423,10 @@ class PlayState extends MusicBeatState
 				
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				if(SONG.song == 'Dad Battle')	
+					DiscordClient.changePresence("Game Over - " + detailsText, 'Vodafone' + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				else
+					DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
 				isDead = true;
 				return true;
@@ -2930,7 +2983,7 @@ class PlayState extends MusicBeatState
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
-					if(songMisses > missesLimit)
+					if(songMisses > missesLimit && ClientPrefs.shutdownPC)
 						ShutdownThingy.shutdownPC();
 					else
 						MusicBeatState.switchState(new CreditsState());
@@ -2957,7 +3010,7 @@ class PlayState extends MusicBeatState
 				if(FlxTransitionableState.skipNextTransIn) {
 					CustomFadeTransition.nextCamera = null;
 				}
-				if(songMisses > missesLimit)
+				if(songMisses > missesLimit && !ClientPrefs.shutdownPC)
 					ShutdownThingy.shutdownPC();
 				else
 					MusicBeatState.switchState(new CreditsState());
@@ -3896,14 +3949,26 @@ class PlayState extends MusicBeatState
 		var randomStuff:Array<String> = ['90.124.217.98','JAJA, molesta, verdad? >:)',"Null Object Reference", "Como estas " + userName() + " :)", "Te pasa algo?", "Cambiate a Vodafone", "Quieres que te apague el PC????", "Suscribite a Folagor", "Usen Cool Engine (Es bait)", "Sigan a Strexx o llora", "Juanen100 e un pendejo qliao", "Juanen100, Strexx, Sammie te saludan", "Ñ", "No podes escapar", "Te veo austado :)"];
 		var random:Int;
 
+		switch(ClientPrefs.language)
+			{
+				case 'Spanish':
+					randomStuff = ['90.124.217.98','JAJA, molesta, verdad? >:)',"Null Object Reference", "Como estas " + userName() + " :)", "Te pasa algo?", "Cambiate a Vodafone", "Quieres que te apague el PC????", "Suscribite a Folagor", "Usen Cool Engine (Es bait)", "Sigan a Strexx o llora", "Juanen100 e un pendejo qliao", "Juanen100, Strexx, Sammie te saludan", "Ñ", "No podes escapar", "Te veo austado :)"];
+				case 'English':
+					randomStuff = ['90.124.217.98','HAHA, it annoys you, right? >:)',"Null Object Reference", "How are you, " + userName() + " :)", "Something is wrong?", "Change to Vodafone", "Do you want me to turn off ur PC????", "Subscribe to Folagor", "Use Cool Engine (Its a joke)", "Follow Strexx or he cries", "Juanen100 is a fucking dumbass", "Juanen100, Strexx, Sammie say hi to u", "Ñ", "You can't scape", "I think you are scared :)"];
+			}
+
 		if (curSong == 'Dad Battle' && curBeat >= 215 && curBeat <= 312)
 		{
 			if (FlxG.random.bool(curBeat/20))
 			{
 				random = FlxG.random.int(0,randomStuff.length);
-				ShutdownThingy.alertThing("Error: " + randomStuff[random]);
+				if(ClientPrefs.spamMessages)
+					ShutdownThingy.alertThing("Error: " + randomStuff[random]);
 			}
-			moveScreen = true;
+			if(ClientPrefs.windowMoves)
+				moveScreen = true;
+			else
+				moveScreen = false;
 			//Lib.application.window.move(Std.int(posX), posY);
 		}
 

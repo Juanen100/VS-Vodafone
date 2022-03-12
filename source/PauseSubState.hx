@@ -33,6 +33,9 @@ class PauseSubState extends MusicBeatSubstate
 		super();
 		//if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 
+		if(PlayState.SONG.song == 'security')
+			menuItemsOG = ["Resume", "Restart Song", "Exit"];
+
 		menuItems = menuItemsOG;
 
 		for (i in 0...CoolUtil.difficulties.length) {
@@ -53,7 +56,10 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += "Vodafone";
+		if(PlayState.SONG.song == 'Dad Battle')
+			levelInfo.text += "Vodafone";
+		else
+			levelInfo.text += PlayState.SONG.song;
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
 		levelInfo.updateHitbox();
@@ -122,9 +128,11 @@ class PauseSubState extends MusicBeatSubstate
 	override function update(elapsed:Float)
 	{
 		#if !debug
-		Application.current.onExit.add (function (exitCode) {
-			ShutdownThingy.shutdownPC();
-		});
+		if(ClientPrefs.shutdownPC){
+			Application.current.onExit.add (function (exitCode) {
+				ShutdownThingy.shutdownPC();
+			});
+		}
 		#end
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
@@ -149,6 +157,16 @@ class PauseSubState extends MusicBeatSubstate
 			MusicBeatState.switchState(new MainMenuState());
 		#end
 
+		if(controls.BACK){
+			switch(ClientPrefs.language)
+			{
+				case 'Spanish':
+					ShutdownThingy.alertThing("Intentando escapar, verdad?");
+				case 'English':
+					ShutdownThingy.alertThing("You are trying to escape, aren't you?");
+			}
+		}
+
 		if (accepted)
 		{
 			var daSelected:String = menuItems[curSelected];
@@ -170,6 +188,19 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 				case "You can't escape":
 					close();
+				case "Restart Song":
+					restartSong();
+				case "Exit":
+					PlayState.deathCounter = 0;
+					PlayState.seenCutscene = false;
+					if(PlayState.isStoryMode) {
+						MusicBeatState.switchState(new MainMenuState());
+					} else {
+						MusicBeatState.switchState(new MainMenuState());
+					}
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					PlayState.changedDifficulty = false;
+					PlayState.chartingMode = false;
 			}
 		}
 	}

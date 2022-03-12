@@ -34,14 +34,6 @@ class VisualsUISubState extends BaseOptionsMenu
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
 
-		var option:Option = new Option('Language:',
-			"What language should this thing speak",
-			'language',
-			'string',
-			'English',
-			['English', 'Spanish']);
-		addOption(option);
-
 		var option:Option = new Option('Note Splashes',
 			"If unchecked, hitting \"Sick!\" notes won't show particles.",
 			'noteSplashes',
@@ -63,20 +55,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'Time Left',
 			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
 		addOption(option);
-
-		var option:Option = new Option('Flashing Lights',
-			"Uncheck this if you're sensitive to flashing lights!",
-			'flashing',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('Chromatic Aberration',
-			"Uncheck this if you're sensitive to epileptic stuff!",
-			'chromAberration',
-			'bool',
-			true);
-		//addOption(option);
 
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",

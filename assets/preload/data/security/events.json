@@ -1,0 +1,229 @@
+{
+	"song": {
+		"speed": 2.6,
+		"stage": "twitter",
+		"player1": "bf-back",
+		"player2": "secure-net",
+		"player3": null,
+		"events": [
+			[
+				22575,
+				[
+					[
+						"Play Animation",
+						"si",
+						"dad"
+					]
+				]
+			],
+			[
+				25200,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				25500,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				25800,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				26100,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				26400,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				26700,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				27000,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				27300,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				27600,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				27900,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				28200,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				28500,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.04"
+					]
+				]
+			],
+			[
+				67200,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				67500,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				67800,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				67950,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				68100,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				68175,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				68250,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			],
+			[
+				68325,
+				[
+					[
+						"Add Camera Zoom",
+						"",
+						"0.05"
+					]
+				]
+			]
+		],
+		"notes": [],
+		"splashSkin": null,
+		"validScore": false,
+		"gfVersion": "gf",
+		"bpm": 200,
+		"arrowSkin": null,
+		"needsVoices": true,
+		"song": "security"
+	}
+}

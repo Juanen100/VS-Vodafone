@@ -50,8 +50,11 @@ class MainMenuState extends MusicBeatState
 	var bg:FlxSprite;
 
 	var playAgainstVodafone:FlxText;
+	var playsacurenet:FlxText;
 	var credits:FlxText;
 	var options:FlxText;
+	var shutdownOption:FlxText;
+	var shutdownInfo:FlxText;
 
 	public static var onMainMenu:Bool = true;
 
@@ -138,6 +141,22 @@ class MainMenuState extends MusicBeatState
 		playAgainstVodafone.scrollFactor.set();
 		playAgainstVodafone.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
 		add(playAgainstVodafone);
+		
+		playsacurenet = new FlxText(462, 0, 0, "Play Vs Secure Net", 12);
+		playsacurenet.scrollFactor.set();
+		playsacurenet.screenCenter(Y);
+		playsacurenet.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
+		add(playsacurenet);
+
+		shutdownOption = new FlxText(462, 505.5, 0, "Shutdown PC: " + ClientPrefs.shutdownPC, 12);
+		shutdownOption.scrollFactor.set();
+		shutdownOption.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, LEFT);
+		add(shutdownOption);
+		
+		shutdownInfo = new FlxText(342, 575.5, 0, "Press Enter to determine if\nYou want the mod to shutdown the PC or not\n", 12);
+		shutdownInfo.scrollFactor.set();
+		shutdownInfo.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, LEFT);
+		add(shutdownInfo);
 
 		credits = new FlxText(995, 475, 0, "Credits", 12);
 		credits.scrollFactor.set();
@@ -155,10 +174,16 @@ class MainMenuState extends MusicBeatState
 				playAgainstVodafone.text = 'Jugar VS Vodafone';
 				credits.text = 'Creditos';
 				options.text = 'Opciones';
+				playsacurenet.text = 'Jugar VS Secure Net';
+				shutdownOption.text = 'Apagar PC: ' + ClientPrefs.shutdownPC;
+				shutdownInfo.text = 'Presiona Enter para ver si\nquieres que el mod apague tu PC o no\n';
 			case 'English':
 				playAgainstVodafone.text = 'Play VS Vodafone';
 				credits.text = 'Credits';
 				options.text = 'Options';
+				playsacurenet.text = 'Play VS Secure Net';
+				shutdownOption.text = 'Shutdown PC: ' + ClientPrefs.shutdownPC;
+				shutdownInfo.text = 'Press Enter to determine if\nYou want the mod to shutdown the PC or not\n';
 		}
 
 		FlxG.camera.follow(camFollowPos, null, 1);
@@ -223,6 +248,28 @@ class MainMenuState extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
+		if(controls.ACCEPT)
+			ClientPrefs.shutdownPC = !ClientPrefs.shutdownPC;
+
+		if(ClientPrefs.shutdownPC){
+			switch(ClientPrefs.language)
+			{
+				case 'Spanish':
+					shutdownOption.text = 'Apagar PC: Si';
+				case 'English':
+					shutdownOption.text = 'Shutdown PC: Yes';
+			}
+		}
+		else{
+			switch(ClientPrefs.language)
+			{
+				case 'Spanish':
+					shutdownOption.text = 'Apagar PC: No';
+				case 'English':
+					shutdownOption.text = 'Shutdown PC: No';
+			}
+		}
+
 		if(FlxG.keys.justPressed.B)
 			ClientPrefs.gameplaySettings.set('botplay', true);
 		if(FlxG.keys.justPressed.O)
@@ -248,6 +295,23 @@ class MainMenuState extends MusicBeatState
 					onMainMenu = false;
 				}
 			}
+
+			if(FlxG.mouse.overlaps(playsacurenet))
+				{
+					if(FlxG.mouse.pressed){
+						PlayState.storyPlaylist = ['security'];
+						PlayState.isStoryMode = true;
+						var diffic = CoolUtil.getDifficultyFilePath(2);
+						if(diffic == null) diffic = '-hard';
+						PlayState.storyDifficulty = 2;
+						PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + '-hard', PlayState.storyPlaylist[0].toLowerCase());
+						PlayState.campaignScore = 0;
+						PlayState.campaignMisses = 0;
+						LoadingState.loadAndSwitchState(new PlayState(), true);
+						onMainMenu = false;
+						ClientPrefs.middleScroll = true;
+					}
+				}
 
 			if(FlxG.mouse.overlaps(credits))
 			{

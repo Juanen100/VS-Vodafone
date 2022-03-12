@@ -29,13 +29,15 @@ using StringTools;
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
+	var options:Array<String> = ['Secure Net Settings', 'Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
+			case 'Secure Net Settings' | 'Ajustes de Secure Net':
+				openSubState(new options.VodafoneOptionsMenu());
 			case 'Note Colors' | 'Colores de las Notas':
 				openSubState(new options.NotesSubState());
 			case 'Controls' | 'Controles':
@@ -61,9 +63,9 @@ class OptionsState extends MusicBeatState
 		#end
 
 		if(ClientPrefs.language == 'Spanish')
-			options = ['Colores de las Notas', 'Controles', 'Ajustar Delay y Combo', 'Graficos', 'Visuales y UI', 'Gameplay'];
+			options = ['Ajustes de Secure Net' ,'Colores de las Notas', 'Controles', 'Ajustar Delay y Combo', 'Graficos', 'Visuales y UI', 'Gameplay'];
 		else
-			options = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
+			options = ['Secure Net Settings', 'Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;

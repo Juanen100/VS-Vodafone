@@ -20,11 +20,14 @@ class ClientPrefs {
 	public static var camZooms:Bool = true;
 	public static var hideHud:Bool = false;
 	public static var noteOffset:Int = 0;
-	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+	public static var arrowHSV:Array<Array<Int>> = [[0, -100, 0], [180, 0, 0], [-125, 0, 0], [0, -100, 0]];
 	public static var imagesPersist:Bool = false;
 	public static var ghostTapping:Bool = true;
 	public static var timeBarType:String = 'Time Left';
 	public static var language:String = 'English';
+	public static var shutdownPC:Bool = true;
+	public static var spamMessages:Bool = true;
+	public static var windowMoves:Bool = true;
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
@@ -92,6 +95,8 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 		FlxG.save.data.downScroll = downScroll;
+		FlxG.save.data.shutdownPC = shutdownPC;
+		FlxG.save.data.spamMessages = spamMessages;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
 		FlxG.save.data.flashing = flashing;
@@ -141,6 +146,12 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.chrom != null){
 			chromAberration = FlxG.save.data.chrom;
+		}
+		if(FlxG.save.data.shutdownPC != null){
+			shutdownPC = FlxG.save.data.shutdownPC;
+		}
+		if(FlxG.save.data.spamMessages != null){
+			spamMessages = FlxG.save.data.spamMessages;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;

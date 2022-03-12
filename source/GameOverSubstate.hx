@@ -77,9 +77,11 @@ class GameOverSubstate extends MusicBeatSubstate
 	override function update(elapsed:Float)
 	{
 		#if !debug
-		Application.current.onExit.add (function (exitCode) {
-			ShutdownThingy.shutdownPC();
-		});
+		if(ClientPrefs.shutdownPC){
+			Application.current.onExit.add (function (exitCode) {
+				ShutdownThingy.shutdownPC();
+			});
+		}
 		#end
 		super.update(elapsed);
 

@@ -62,7 +62,6 @@ class Character extends FlxSprite
 	public var idleSuffix:String = '';
 	public var danceIdle:Bool = false; //Character use "danceLeft" and "danceRight" instead of "idle"
 	
-
 	public var healthIcon:String = 'face';
 	public var animationsArray:Array<AnimArray> = [];
 
@@ -126,6 +125,68 @@ class Character extends FlxSprite
 				addOffset("singDOWN");
 	
 				playAnim('idle');
+				healthIcon = 'vodafone-angry';
+
+			case 'secure-net':
+				frames = Paths.getSparrowAtlas('characters/secure-net', 'shared');
+				animation.addByPrefix('idle', 'idlee', 24);
+				animation.addByPrefix('si', 'especial', 24);
+				animation.addByPrefix('singUP', 'up', 24);
+				animation.addByPrefix('singRIGHT', 'right', 24);
+				animation.addByPrefix('singDOWN', 'down', 24);
+				animation.addByPrefix('singLEFT', 'left', 24);
+	
+				addOffset('idle');
+				addOffset('si');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+	
+				playAnim('idle');
+
+				scale.x = 3;
+				scale.y = 3;
+				positionArray = [900, 150];
+				healthIcon = 'securityalert';
+				cameraPosition = [-100, 300];
+
+			case 'bf-back':
+				var tex = Paths.getSparrowAtlas('characters/bf-backward', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singLEFT', 'right', 24, false);
+				animation.addByPrefix('singRIGHT', 'left', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singUPmiss', 'up', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'left', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'right', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'down', 24, false);
+		
+				addOffset('idle', 119, -160);
+				addOffset("singUP", 109, -141);
+				addOffset("singRIGHT", 119, -181);
+				addOffset("singLEFT", 139, -180);
+				addOffset("singDOWN", 159, -250);
+				addOffset("singUPmiss", 139, -141);
+				addOffset("singRIGHTmiss", 179, -171);
+				addOffset("singLEFTmiss", 133, -186);
+				addOffset("singDOWNmiss", 89, -242);
+				addOffset('firstDeath', 119, -161);
+				addOffset('deathLoop', 189, -171);
+				addOffset('deathConfirm', 117, -161);
+		
+				playAnim('idle');
+		
+				//flipX = true;
+				positionArray = [0, 500];
+				healthColorArray = [
+					49,
+					176,
+					209
+				];
+				healthIcon = 'bf';
 
 			default:
 				var characterPath:String = 'characters/' + curCharacter + '.json';
